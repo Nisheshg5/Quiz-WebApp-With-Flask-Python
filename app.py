@@ -1,8 +1,25 @@
 from datetime import datetime
 
 from flask import Flask, render_template
+from flaskext.mysql import MySQL
 
 app = Flask(__name__)
+
+
+mysql = MySQL()
+app.config[
+    "MYSQL_DATABASE_HOST"
+] = "hospital-db-v2.cowul8deiwyt.ap-south-1.rds.amazonaws.com"
+app.config["MYSQL_DATABASE_USER"] = "admin"
+app.config["MYSQL_DATABASE_PASSWORD"] = "1hospital"
+app.config["MYSQL_DATABASE_DB"] = "hospital"
+mysql.init_app(app)
+
+conn = mysql.connect()
+cursor = conn.cursor()
+
+cursor.execute("SELECT * from doctor")
+print(*cursor.fetchall(), sep="\n")
 
 
 @app.route("/")
