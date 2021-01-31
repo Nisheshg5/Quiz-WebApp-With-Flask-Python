@@ -6,15 +6,24 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/test.db"
-app.config[
-    "SQLALCHEMY_DATABASE_URI"
-] = "mysql://admin:1hospital@hospital-db-v2.cowul8deiwyt.ap-south-1.rds.amazonaws.com/hospital"
+url = "mysql://{0}:{1}@{2}:{3}/{4}".format(
+    "adminsql@quiz-mysql-db",
+    "Quiz@123",
+    "quiz-mysql-db.mysql.database.azure.com",
+    3306,
+    "quiz",
+)
+app.config["SQLALCHEMY_DATABASE_URI"] = url
 db = SQLAlchemy(app)
 
 
-from models import User
+from models import Question, Question_choices, Quiz, User, User_question_answer
 
-print(*User.query.all(), sep="\n")
+print(*User.query.all(), sep="\n", end="\n\n\n\n\n")
+print(*Quiz.query.all(), sep="\n", end="\n\n\n\n\n")
+print(*Question.query.all(), sep="\n", end="\n\n\n\n\n")
+print(*Question_choices.query.all(), sep="\n", end="\n\n\n\n\n")
+print(*User_question_answer.query.all(), sep="\n")
 
 
 @app.route("/")
