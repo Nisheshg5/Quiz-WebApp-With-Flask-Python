@@ -1,25 +1,20 @@
 from datetime import datetime
 
 from flask import Flask, render_template
-from flaskext.mysql import MySQL
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-
-
-mysql = MySQL()
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/test.db"
 app.config[
-    "MYSQL_DATABASE_HOST"
-] = "hospital-db-v2.cowul8deiwyt.ap-south-1.rds.amazonaws.com"
-app.config["MYSQL_DATABASE_USER"] = "admin"
-app.config["MYSQL_DATABASE_PASSWORD"] = "1hospital"
-app.config["MYSQL_DATABASE_DB"] = "hospital"
-mysql.init_app(app)
+    "SQLALCHEMY_DATABASE_URI"
+] = "mysql://admin:1hospital@hospital-db-v2.cowul8deiwyt.ap-south-1.rds.amazonaws.com/hospital"
+db = SQLAlchemy(app)
 
-conn = mysql.connect()
-cursor = conn.cursor()
 
-cursor.execute("SELECT * from doctor")
-print(*cursor.fetchall(), sep="\n")
+from models import User
+
+print(*User.query.all(), sep="\n")
 
 
 @app.route("/")
