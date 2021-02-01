@@ -25,7 +25,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = url
 db = SQLAlchemy(app)
 
 
-# from models import Question, Question_choices, Quiz, User, User_question_answer
+from models import Question, Question_choices, Quiz, User, User_question_answer
 
 # print(*User.query.all(), sep="\n", end="\n\n\n\n\n")
 # print(*Quiz.query.all(), sep="\n", end="\n\n\n\n\n")
@@ -44,9 +44,17 @@ def home():
     if request.method == "POST":
         quizIdForm = QuizIdForm(request.form)
         if quizIdForm.validate_on_submit():
-            return redirect(url_for("quiz.quiz_page", quiz_id=id))
+            if (
+                Quiz.query.filter_by(quiz_id=quizIdForm.quiz_id.data).first()
+                is not None
+            ):
+                return redirect(
+                    url_for("quiz.quiz_page", quiz_id=quizIdForm.quiz_id.data)
+                )
+            else:
+                flash(message=["Invalid Code"], category="error")
         else:
-            flash(f"No quiz found for code: {quizIdForm.quiz_id.data}!", "error")
+            flash(message=quizIdForm, category="validation")
 
     quizIdForm = QuizIdForm()
     return render_template("home.html", quizIdForm=quizIdForm)
