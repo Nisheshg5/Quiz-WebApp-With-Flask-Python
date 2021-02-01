@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 from admin import admin
@@ -37,8 +37,11 @@ app.register_blueprint(quiz, url_prefix="/quiz")
 app.register_blueprint(user_profile, url_prefix="/user")
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
+    if request.method == "POST":
+        id = request.form["quiz_id"]
+        return redirect(url_for("quiz.quiz_page", quiz_id=id))
     return render_template("home.html")
 
 
