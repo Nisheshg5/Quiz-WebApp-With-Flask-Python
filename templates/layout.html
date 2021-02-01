@@ -6,6 +6,8 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/site.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/form.css')}}" />
+    
 </head>
 
 <body>
@@ -13,7 +15,42 @@
         <a href="{{ url_for('home') }}" class="navbar-brand">Home</a>
         <a href="{{ url_for('about') }}" class="navbar-item">About</a>
         <a href="{{ url_for('contact') }}" class="navbar-item">Contact</a>
+        <a href="#loginModal" class="navbar-item" data-toggle="modal">Login</a>
     </div>
+
+    <div class="modal fade show" id="loginModal" style="display: block">
+        <div class="modal-dialog modal-dialog-centere modal-lg">
+          <div class="modal-content">            
+            <!-- Modal body -->
+            <div class="modal-body">
+                <h2 class="modal-title text-center">Login</h2>
+                <form action="/login" method="POST">
+                    <div class="form-group">
+                        <label for="username" class="control-label">Username:</label>
+                        <input type="text" name="username" placeholder="Username" class="form-control" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="control-label">Password:</label>
+                        <input type="password" name="password" placeholder="Password" class="form-control" required="">
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label class=""><input type="checkbox" name="remember"> Remember Me</label>
+                            <a href="/forgot" class="" style="float:right">Forget Password ?</a>				
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn btn-primary btn-block" type="submit" value="Login">
+                    </div>
+                    <div class="form-group">			
+                        <label class="control-label">Don't have an account? <a href="/register/">Register</a></label>
+                    </div>
+                </form>
+            </div>
+            
+          </div>
+        </div>
+      </div>
 
     <div class="container-fluid">
         {% block content %}

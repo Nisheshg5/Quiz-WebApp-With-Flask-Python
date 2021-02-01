@@ -1,0 +1,13 @@
+.modal-content
+{
+    background: rgba(0, 0, 0, .39);
+    position: relative;
+    width: 100%;
+    color: #fff;
+    margin: 0 auto;
+    -webkit-backdrop-filter: blur(15px);
+    -moz-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    padding: 40px 40px;
+    border-radius: 8px;
+}
