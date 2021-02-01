@@ -62,7 +62,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <h2 class="modal-title text-center">Sign Up</h2><br>
-                    <form action="/login" method="POST">
+                    <form action="/register" method="POST">
                         {{ registrationForm.hidden_tag() }}
                         <div class="form-group">
                             {{ registrationForm.email.label(class="control-label") }}
@@ -109,12 +109,12 @@
     {% if messages %}
     {% for category, error in messages %}
     {% if category == 'validation' %}
-    {% for field, errors in error.errors.items() %}
+    {% for field, errors in error %}
     <script>
         Swal.fire({
             icon: 'error',
-            title: 'Error in {{ error[field].label.text }}',
-            text: '{{ ", ".join(errors) }}',
+            title: 'Error',
+            html: '{{ field }}: {{ ", ".join(errors) }}',
             position: 'top',
             timerProgressBar: true,
             showConfirmButton: false,
@@ -122,12 +122,23 @@
         });
     </script>
     {% endfor %}
+    {% elif category == 'success' %}
+    <script>
+        Swal.fire({
+            icon: '{{ category }}',
+            html: '{{ ", ".join(error) }}',
+            position: 'top',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
     {% else %}
     <script>
         Swal.fire({
             icon: '{{ category }}',
             title: 'Error',
-            text: '{{ ", ".join(error) }}',
+            html: '{{ ", ".join(error) }}',
             position: 'top',
             timerProgressBar: true,
             showConfirmButton: false,

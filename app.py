@@ -61,7 +61,10 @@ def home():
             else:
                 flash(message=["Invalid Code"], category="error")
         else:
-            flash(message=quizIdForm, category="validation")
+            errors = [
+                [quizIdForm[a].label.text, b] for a, b in quizIdForm.errors.items()
+            ]
+            flash(message=errors, category="validation")
 
     quizIdForm = QuizIdForm()
     return render_template("home.html", quizIdForm=quizIdForm)
@@ -86,3 +89,54 @@ def hello_there(name=None):
 @app.route("/api/data")
 def get_data():
     return app.send_static_file("data.json")
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    loginForm = LoginForm(request.form)
+    if loginForm.loginSubmit.data and loginForm.validate_on_submit():
+        if (
+            User.query.filter_by(email=loginForm.email.data)
+            .filter_by(password=loginForm.password.data)
+            .first()
+            is not None
+        ):
+            flash(message=["Logged in successfully"], category="success")
+            return redirect(url_for("home"))
+        else:
+            flash(message=["Invalid username or password"], category="error")
+            return redirect(url_for("home"))
+    else:
+        errors = [[loginForm[a].label.text, b] for a, b in loginForm.errors.items()]
+        flash(message=errors, category="validation")
+        return redirect(url_for("home"))
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    registrationForm = RegistrationForm(request.form)
+    if (
+        registrationForm.registrationSubmit.data
+        and registrationForm.validate_on_submit()
+    ):
+        if User.query.filter_by(email=registrationForm.email.data).first() is None:
+            flash(message=["User created successfully"], category="success")
+            return redirect(url_for("home"))
+        else:
+            flash(
+                message=["User already exists. Please Log in instead"],
+                category="warning",
+            )
+            return redirect(url_for("home"))
+    else:
+        errors = [
+            [registrationForm[a].label.text, b]
+            for a, b in registrationForm.errors.items()
+        ]
+        flash(message=errors, category="validation")
+        return redirect(url_for("home"))
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return "Page not found"
