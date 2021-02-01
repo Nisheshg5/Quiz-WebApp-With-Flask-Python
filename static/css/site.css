@@ -8,13 +8,58 @@ body {
 
 body::before {
     content: "";
-    position: absolute;
+    position: fixed;
+    display: block;
+    z-index: -1;
+    top: 0;
     width: 100vw;
     height: 100vh;
     background: radial-gradient(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.9));
     /* background-image: linear-gradient(to right, rgba(0,0,0,0.5), rgba(255,255,255,0.2), rgba(0,0,0,0.5)); */
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+.home_div {
+    margin: 0 auto;
+    width: 30%;
+    text-align: center;
+    color: white;
+    margin-top: 50px;
+}
+
+.quiz_form input[type='text'] {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    padding: 10px 20px 10px 20px;
+    border-radius: 1em;
+    background-color: rgba(0, 0, 0, 0.2);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    border-color: #9c51e9;
+    color: #fff;
+    box-shadow: 0 0 10px 0 #9c51e9 inset, 0 0 10px 4px #9c51e9;
+}
+
+.quiz_form input[type='submit'] {
+    text-align: center;
+    padding: 1em 3em;
+    border-radius: 2em;
+    min-width: 200px;
+    background-color: transparent;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    border-color: #9c51e9;
+    color: #fff;
+    box-shadow: 0 0 40px 40px #9c51e9 inset, 0 0 0 0 #9c51e9;
+    -webkit-transition: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
+}
+
+.quiz_form input[type='submit']:hover {
+    box-shadow: 0 0 10px 0 #9c51e9 inset, 0 0 10px 4px #9c51e9;
+    color: #fff;
+    outline: 0;
 }
 
 .message {
