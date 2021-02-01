@@ -7,9 +7,10 @@ Home page
 	<h2>Welcome</h2>
 	<br>
 	<h5>Please Enter the Quiz Code:</h5>
-	<form class="quiz_form" action="" method="post">
-		<input class="form-control form-control-lg" type="text" name="quiz_id" id="quiz_id" placeholder="Code">
-		<input class="btn third" type="submit" value="Open Quiz">
+	<form class="quiz_form" action="" method="POST">
+		{{ quizIdForm.hidden_tag() }}
+		{{ quizIdForm.quiz_id(class="form-control form-control-lg", placeholder="Enter Code") }}
+		{{ quizIdForm.submit(class="btn third") }}
 	</form>
 
 </div>

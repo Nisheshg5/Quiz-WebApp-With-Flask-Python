@@ -1,14 +1,16 @@
 from datetime import datetime
 
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 from admin import admin
+from forms import QuizIdForm
 from login import login
 from quiz import quiz
 from user_profile import user_profile
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = "1234567890abc"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/test.db"
@@ -40,9 +42,14 @@ app.register_blueprint(user_profile, url_prefix="/user")
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
-        id = request.form["quiz_id"]
-        return redirect(url_for("quiz.quiz_page", quiz_id=id))
-    return render_template("home.html")
+        quizIdForm = QuizIdForm(request.form)
+        if quizIdForm.validate_on_submit():
+            return redirect(url_for("quiz.quiz_page", quiz_id=id))
+        else:
+            flash(f"No quiz found for code: {quizIdForm.quiz_id.data}!", "error")
+
+    quizIdForm = QuizIdForm()
+    return render_template("home.html", quizIdForm=quizIdForm)
 
 
 @app.route("/about/")
