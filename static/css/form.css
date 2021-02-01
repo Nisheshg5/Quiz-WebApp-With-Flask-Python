@@ -1,8 +1,8 @@
-.modal-content
+#loginModal .modal-content
 {
     background: rgba(0, 0, 0, .39);
     position: relative;
-    width: 100%;
+    width: 500px;
     color: #fff;
     margin: 0 auto;
     -webkit-backdrop-filter: blur(15px);
