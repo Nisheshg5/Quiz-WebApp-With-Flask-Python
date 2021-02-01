@@ -3,6 +3,11 @@ from datetime import datetime
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
+from admin import admin
+from login import login
+from quiz import quiz
+from user_profile import user_profile
+
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/test.db"
@@ -17,13 +22,18 @@ app.config["SQLALCHEMY_DATABASE_URI"] = url
 db = SQLAlchemy(app)
 
 
-from models import Question, Question_choices, Quiz, User, User_question_answer
+# from models import Question, Question_choices, Quiz, User, User_question_answer
 
-print(*User.query.all(), sep="\n", end="\n\n\n\n\n")
-print(*Quiz.query.all(), sep="\n", end="\n\n\n\n\n")
-print(*Question.query.all(), sep="\n", end="\n\n\n\n\n")
-print(*Question_choices.query.all(), sep="\n", end="\n\n\n\n\n")
-print(*User_question_answer.query.all(), sep="\n")
+# print(*User.query.all(), sep="\n", end="\n\n\n\n\n")
+# print(*Quiz.query.all(), sep="\n", end="\n\n\n\n\n")
+# print(*Question.query.all(), sep="\n", end="\n\n\n\n\n")
+# print(*Question_choices.query.all(), sep="\n", end="\n\n\n\n\n")
+# print(*User_question_answer.query.all(), sep="\n")
+
+app.register_blueprint(admin, url_prefix="/admin")
+app.register_blueprint(login, url_prefix="/login")
+app.register_blueprint(quiz, url_prefix="/quiz")
+app.register_blueprint(user_profile, url_prefix="/user")
 
 
 @app.route("/")
