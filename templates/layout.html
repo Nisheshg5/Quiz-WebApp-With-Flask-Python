@@ -26,30 +26,32 @@
                 <div class="modal-body">
                     <h2 class="modal-title text-center">Login</h2><br>
                     <form action="/login" method="POST">
+                        {{ loginForm.hidden_tag() }}
                         <div class="form-group">
-                            <label for="email" class="control-label">Email:</label>
-                            <input type="text" name="email" placeholder="Email" class="form-control" required="">
+                            {{ loginForm.email.label(class="control-label") }}
+                            {{ loginForm.email(class="form-control") }}
                         </div>
                         <div class="form-group">
-                            <label for="password" class="control-label">Password:</label>
-                            <input type="password" name="password" placeholder="Password" class="form-control"
-                                required="">
+                            {{ loginForm.password.label(class="control-label") }}
+                            {{ loginForm.password(class="form-control") }}
                         </div>
                         <div class="form-group">
                             <div class="checkbox">
-                                <label class=""><input type="checkbox" name="remember"> Remember Me</label>
-                                <a href="#" class="form-link" style="float:right">Forget Password ?</a>
+                                <label class="">
+                                    {{ loginForm.remember }}
+                                    {{ loginForm.remember.label }}
+                                </label>
                             </div>
                         </div>
                         <div class="form-group">
-                            <input class="btn btn-block btn-purple" type="submit" value="Login">
+                            {{ loginForm.loginSubmit(class="btn btn-block btn-purple") }}
                         </div>
                         <div class="form-group">
                             <label class="control-label">Don't have an account? <a href="#signupModal"
                                     data-dismiss="modal" data-toggle="modal" class="form-link">Register</a></label>
                         </div>
                     </form>
-                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                    <!-- <button type="button" class="btn" data-dismiss="modal">Close</button> -->
                 </div>
             </div>
         </div>
@@ -61,29 +63,28 @@
                 <div class="modal-body">
                     <h2 class="modal-title text-center">Sign Up</h2><br>
                     <form action="/login" method="POST">
+                        {{ registrationForm.hidden_tag() }}
                         <div class="form-group">
-                            <label for="email" class="control-label">Email:</label>
-                            <input type="text" name="email" placeholder="Email" class="form-control" required="">
+                            {{ registrationForm.email.label(class="control-label") }}
+                            {{ registrationForm.email(class="form-control") }}
                         </div>
                         <div class="form-group">
-                            <label for="password" class="control-label">Password:</label>
-                            <input type="password" name="password" placeholder="Password" class="form-control"
-                                required="">
+                            {{ registrationForm.password.label(class="control-label") }}
+                            {{ registrationForm.password(class="form-control") }}
                         </div>
                         <div class="form-group">
-                            <label for="confirm-pwd" class="control-label">Confirm Password:</label>
-                            <input type="password" name="confirm-pwd" placeholder="Password" class="form-control"
-                                required="">
+                            {{ registrationForm.confirm_password.label(class="control-label") }}
+                            {{ registrationForm.confirm_password(class="form-control") }}
                         </div>
                         <div class="form-group">
-                            <input class="btn btn-block btn-purple" type="submit" value="Sign Up">
+                            {{ registrationForm.registrationSubmit(class="btn btn-block btn-purple") }}
                         </div>
                         <div class="form-group">
                             <label class="control-label">Already have an account? <a href="#loginModal"
                                     data-dismiss="modal" data-toggle="modal" class="form-link">Log In</a></label>
                         </div>
                     </form>
-                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                    <!-- <button type="button" class="btn" data-dismiss="modal">Close</button> -->
                 </div>
             </div>
         </div>

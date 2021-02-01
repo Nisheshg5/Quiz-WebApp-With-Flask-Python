@@ -4,7 +4,7 @@ from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 from admin import admin
-from forms import QuizIdForm
+from forms import LoginForm, QuizIdForm, RegistrationForm
 from login import login
 from quiz import quiz
 from user_profile import user_profile
@@ -39,11 +39,18 @@ app.register_blueprint(quiz, url_prefix="/quiz")
 app.register_blueprint(user_profile, url_prefix="/user")
 
 
+@app.context_processor
+def inject_forms():
+    loginForm = LoginForm()
+    registrationForm = RegistrationForm()
+    return dict(loginForm=loginForm, registrationForm=registrationForm)
+
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
         quizIdForm = QuizIdForm(request.form)
-        if quizIdForm.validate_on_submit():
+        if quizIdForm.submit.data and quizIdForm.validate_on_submit():
             if (
                 Quiz.query.filter_by(quiz_id=quizIdForm.quiz_id.data).first()
                 is not None
