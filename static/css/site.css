@@ -1,14 +1,33 @@
+body {
+    background-image: url("/static/images/quiz-2137664.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center top;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.9));
+    /* background-image: linear-gradient(to right, rgba(0,0,0,0.5), rgba(255,255,255,0.2), rgba(0,0,0,0.5)); */
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .message {
     font-weight: 600;
     color: dodgerblue;
 }
 
 .navbar {
-    background-color: lightslategray;
+    background-color: transparent;
     font-size: 1em;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: white;
-    padding: 8px 5px 8px 5px;
+    padding: 20px 100px 10px 100px;
 }
 
 .navbar a {

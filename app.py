@@ -10,6 +10,7 @@ from user_profile import user_profile
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/test.db"
 url = "mysql://{0}:{1}@{2}:{3}/{4}".format(
     "adminsql@quiz-mysql-db",
