@@ -1,4 +1,4 @@
-#loginModal .modal-content
+#loginModal .modal-content, #signupModal .modal-content
 {
     background: rgba(0, 0, 0, .39);
     position: relative;
@@ -10,4 +10,17 @@
     backdrop-filter: blur(15px);
     padding: 40px 40px;
     border-radius: 8px;
+}
+a.form-link
+{
+    color: #fff;
+}
+a.form-link:hover
+{
+    color:#eee;
+    border-color: #eee;
+}
+input[type="checkbox"]:checked{
+    background: purple;
+    color:purple
 }
