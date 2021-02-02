@@ -33,3 +33,5 @@ def quiz_page_id(quiz_id):
 
     # render the quiz
     return render_template("quiz.html", name=quiz_id)
+
+    
