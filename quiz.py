@@ -28,6 +28,7 @@ def quiz_page_id(quiz_id):
     # check for quiz expiration
     # if the  quiz is expired we don't need to fetch the questions
     # expired
+    
     if(quiz.end_date < datetime.utcnow()):        
         return render_template("quiz.html", id=quiz_id, title=quiz.title, start=quiz.start_date, end=quiz.end_date)
     else:
