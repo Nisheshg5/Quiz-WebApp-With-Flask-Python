@@ -7,7 +7,7 @@ Home page
 	<h2>Welcome</h2>
 	<br>
 	<h5>Please Enter the Quiz Code:</h5>
-	<form class="quiz_form" action="" method="POST">
+	<form class="quiz_form" action="/quiz/123" method="GET">
 		{{ quizIdForm.hidden_tag() }}
 		{{ quizIdForm.quiz_id(class="form-control form-control-lg") }}
 		{{ quizIdForm.submit(class="btn") }}
