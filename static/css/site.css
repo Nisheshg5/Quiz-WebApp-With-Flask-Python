@@ -4,9 +4,8 @@ body {
     background-size: cover;
     background-attachment: fixed;
     background-position: center top;
-    height:100vh;
-    width:100vw;
-
+    height: 100vh;
+    width: 100vw;
 }
 
 body::before {
@@ -17,38 +16,68 @@ body::before {
     top: 0;
     width: 100vw;
     height: 100vh;
-    background: radial-gradient(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.9));
-    /* background-image: linear-gradient(to right, rgba(0,0,0,0.5), rgba(255,255,255,0.2), rgba(0,0,0,0.5)); */
+    background: radial-gradient(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.9));
     background-size: cover;
     background-repeat: no-repeat;
 }
-.btn-purple
-{
+
+.btn-purple {
     background: #8337d2;
-    border-color:#8337d2;
+    border-color: #8337d2;
     color: #fff;
 }
-.purple{
-    color:#8337d2;
+
+.purple {
+    color: #8337d2;
 }
-.btn-purple:hover, .btn-purple:active, .btn-purple:focus
-{    
+
+.btn-purple:hover, .btn-purple:active, .btn-purple:focus {
     background: #863dd4;
-    border-color:#863dd4;
-    box-shadow:rgb(131 55 210 / 25%);
+    border-color: #863dd4;
+    box-shadow: rgb(131 55 210 / 25%);
 }
+
 .home_div {
     margin: 0 auto;
     width: 30%;
+    min-height: 60vh;
+    padding: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50px;
     text-align: center;
     color: white;
-    margin-top: 50px;
+}
+
+@media only screen and (max-width: 1366px) {
+    .home_div {
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .home_div {
+        width: 80%;
+    }
+}
+
+.home_div_content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 .quiz_form input[type='text'] {
     margin-top: 50px;
     margin-bottom: 30px;
     padding: 10px 20px 10px 20px;
+    min-width: 100px;
     border-radius: 1em;
     background-color: rgba(0, 0, 0, 0.2);
     font-family: 'Montserrat', sans-serif;
