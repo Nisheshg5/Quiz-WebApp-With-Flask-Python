@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 
-from flask import (Flask, flash, redirect, render_template, request, session,
-                   url_for)
+from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 from admin import admin
@@ -105,14 +104,23 @@ def get_data():
 def login():
     loginForm = LoginForm(request.form)
     if loginForm.loginSubmit.data and loginForm.validate_on_submit():
-        if (
+        user = (
             User.query.filter_by(email=loginForm.email.data)
             .filter_by(password=loginForm.password.data)
             .first()
-            is not None
-        ):
+        )
+        if user is not None:
             session.permanent = True
-            flash(message=["Logged in successfully"], category="success")
+            session["loggedIn"] = True
+            session["user"] = user
+            session["user_id"] = user.user_id
+            flash(
+                message=[
+                    f"Logged in successfully",
+                    f"Welcome {user.username.capitalize()}",
+                ],
+                category="success",
+            )
             return redirect(url_for(**session["redirectURL"]))
         else:
             flash(message=["Invalid username or password"], category="error")

@@ -125,8 +125,8 @@
     {% elif category == 'success' %}
     <script>
         Swal.fire({
-            icon: '{{ category }}',
-            html: '{{ ", ".join(error) }}',
+            icon: 'success',
+            html: '{{ "<br>".join(error) | safe}}',
             position: 'top',
             timerProgressBar: true,
             showConfirmButton: false,
