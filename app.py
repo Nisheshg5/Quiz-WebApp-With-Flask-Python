@@ -112,7 +112,6 @@ def login():
         if user is not None:
             session.permanent = True
             session["loggedIn"] = True
-            session["user"] = user
             session["user_id"] = user.user_id
             flash(
                 message=[
@@ -139,21 +138,31 @@ def register():
         and registrationForm.validate_on_submit()
     ):
         if User.query.filter_by(email=registrationForm.email.data).first() is None:
+            user = User(
+                username=registrationForm.email.data.split("@")[0],
+                email=registrationForm.email.data,
+                password=registrationForm.password.data,
+            )
+            db.session.add(user)
+            db.session.commit()
+            session.permanent = True
+            session["loggedIn"] = True
+            session["user_id"] = user.user_id
             flash(message=["User created successfully"], category="success")
-            return redirect(**session["redirectURL"])
+            return redirect(url_for(**session["redirectURL"]))
         else:
             flash(
                 message=["User already exists. Please Log in instead"],
                 category="warning",
             )
-            return redirect(**session["redirectURL"])
+            return redirect(url_for(**session["redirectURL"]))
     else:
         errors = [
             [registrationForm[a].label.text, b]
             for a, b in registrationForm.errors.items()
         ]
         flash(message=errors, category="validation")
-        return redirect(**session["redirectURL"])
+        return redirect(url_for(**session["redirectURL"]))
 
 
 @app.errorhandler(404)
