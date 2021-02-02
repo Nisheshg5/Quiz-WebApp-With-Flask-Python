@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import (Flask, flash, redirect, render_template, request, session,
+                   url_for)
 from flask_sqlalchemy import SQLAlchemy
 
 from admin import admin
@@ -68,27 +69,32 @@ def home():
             flash(message=errors, category="validation")
 
     quizIdForm = QuizIdForm()
+    session["redirectURL"] = {"endpoint": "home"}
     return render_template("home.html", quizIdForm=quizIdForm)
 
 
 @app.route("/about/")
 def about():
+    session["redirectURL"] = {"endpoint": "about"}
     return render_template("about.html")
 
 
 @app.route("/contact/")
 def contact():
+    session["redirectURL"] = {"endpoint": "contact"}
     return render_template("contact.html")
 
 
 @app.route("/hello/")
 @app.route("/hello/<name>")
 def hello_there(name=None):
+    session["redirectURL"] = {"endpoint": "hello_there", "name": name}
     return render_template("hello_there.html", name=name, date=datetime.now())
 
 
 @app.route("/api/data")
 def get_data():
+    session["redirectURL"] = {"endpoint": "get_data"}
     return app.send_static_file("data.json")
 
 
@@ -103,14 +109,14 @@ def login():
             is not None
         ):
             flash(message=["Logged in successfully"], category="success")
-            return redirect(url_for("home"))
+            return redirect(url_for(**session["redirectURL"]))
         else:
             flash(message=["Invalid username or password"], category="error")
-            return redirect(url_for("home"))
+            return redirect(url_for(**session["redirectURL"]))
     else:
         errors = [[loginForm[a].label.text, b] for a, b in loginForm.errors.items()]
         flash(message=errors, category="validation")
-        return redirect(url_for("home"))
+        return redirect(url_for(**session["redirectURL"]))
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -122,20 +128,20 @@ def register():
     ):
         if User.query.filter_by(email=registrationForm.email.data).first() is None:
             flash(message=["User created successfully"], category="success")
-            return redirect(url_for("home"))
+            return redirect(**session["redirectURL"])
         else:
             flash(
                 message=["User already exists. Please Log in instead"],
                 category="warning",
             )
-            return redirect(url_for("home"))
+            return redirect(**session["redirectURL"])
     else:
         errors = [
             [registrationForm[a].label.text, b]
             for a, b in registrationForm.errors.items()
         ]
         flash(message=errors, category="validation")
-        return redirect(url_for("home"))
+        return redirect(**session["redirectURL"])
 
 
 @app.errorhandler(404)
