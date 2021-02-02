@@ -7,7 +7,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 from admin import admin
 from forms import LoginForm, QuizIdForm, RegistrationForm
-from login import login
 from quiz import quiz
 from user_profile import user_profile
 
@@ -42,7 +41,6 @@ from models import Question, Question_choices, Quiz, User, User_question_answer
 # print(*User_question_answer.query.all(), sep="\n")
 
 app.register_blueprint(admin, url_prefix="/admin")
-app.register_blueprint(login, url_prefix="/login")
 app.register_blueprint(quiz, url_prefix="/quiz")
 app.register_blueprint(user_profile, url_prefix="/user")
 
@@ -173,7 +171,7 @@ def register():
 @app.route("/logout/")
 def logout():
     logout_user()
-    return redirect(url_for(**session["redirectURL"]))
+    return redirect(url_for("home"))
 
 
 @app.errorhandler(404)
