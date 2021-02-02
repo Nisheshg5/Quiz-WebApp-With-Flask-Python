@@ -5,11 +5,6 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, current_user, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 
-from admin import admin
-from forms import LoginForm, QuizIdForm, RegistrationForm
-from quiz import quiz
-from user_profile import user_profile
-
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "1234567890abc"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -31,8 +26,11 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 
 
+from admin import admin
 from forms import LoginForm, QuizIdForm, RegistrationForm
 from models import Question, Question_choices, Quiz, User, User_question_answer
+from quiz import quiz
+from user_profile import user_profile
 
 # print(*User.query.all(), sep="\n", end="\n\n\n\n\n")
 # print(*Quiz.query.all(), sep="\n", end="\n\n\n\n\n")
