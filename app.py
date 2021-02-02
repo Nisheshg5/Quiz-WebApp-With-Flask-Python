@@ -22,6 +22,7 @@ url = "mysql://{0}:{1}@{2}:{3}/{4}".format(
     "quiz",
 )
 app.config["SQLALCHEMY_DATABASE_URI"] = url
+
 db = SQLAlchemy(app)
 
 
@@ -139,4 +140,21 @@ def register():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return "Page not found"
+    return render_template(
+        "error.html",
+        code=404,
+        title="404 Not Found",
+        content=" The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.",
+        content_secondary="",
+    )
+
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template(
+        "error.html",
+        code=500,
+        title="Internal Server Error",
+        content="The server encountered an internal error and was unable to complete your request.",
+        content_secondary="Please try again later.",
+    )
