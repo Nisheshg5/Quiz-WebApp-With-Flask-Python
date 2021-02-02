@@ -7,13 +7,15 @@ Quiz
 	Quiz
 </h1>
 <h3>
-	id: {{ id }} <br>
-	name: {{title}}	<br>
-	Start Date: {{ start }} <br>
-	End Date: {{ end }} <br>
-	
-
-
+	id: {{ quiz.quiz_id }} <br>
+	name: {{ quiz.title }} <br>
+	Start Date: {{ quiz.start_date }} <br>
+	End Date: {{ quiz.end_date }} <br>
 </h3>
+<h6>
+	{% for question in quiz.questions %}
+	Question : {{ question }} <br>
+	{% endfor %}
+</h6>
 {{super()}}
 {% endblock %}
