@@ -57,18 +57,6 @@ body::before {
     color: white;
 }
 
-@media only screen and (max-width: 1366px) {
-    .home_div {
-        width: 60%;
-    }
-}
-
-@media only screen and (max-width: 768px) {
-    .home_div {
-        width: 80%;
-    }
-}
-
 .home_div_content {
     position: absolute;
     top: 50%;
@@ -81,7 +69,7 @@ body::before {
     margin-top: 50px;
     margin-bottom: 30px;
     padding: 10px 20px 10px 20px;
-    min-width: 100px;
+    min-width: 300px;
     border-radius: 1em;
     background-color: rgba(0, 0, 0, 0.2);
     font-family: 'Montserrat', sans-serif;
@@ -95,7 +83,8 @@ body::before {
     text-align: center;
     padding: 1em 3em;
     border-radius: 2em;
-    min-width: 200px;
+    min-width: 100px;
+    max-width: 200px;
     background-color: transparent;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
@@ -110,6 +99,24 @@ body::before {
     box-shadow: 0 0 10px 0 #9c51e9 inset, 0 0 10px 4px #9c51e9;
     color: #fff;
     outline: 0;
+}
+
+@media only screen and (max-width: 1366px) {
+    .home_div {
+        width: 60%;
+    }
+    .quiz_form input[type='text'] {
+        min-width: 200px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .home_div {
+        width: 80%;
+    }
+    .quiz_form input[type='text'] {
+        min-width: 150px;
+    }
 }
 
 .message {
