@@ -4,22 +4,24 @@ Home page
 {% endblock %}
 {% block content %}
 <div class="home_div">
-	<h2>Welcome</h2>
-	<br>
-	<h5>Please Enter the Quiz Code:</h5>
-	<form class="quiz_form" action="" method="GET" id="codeForm">
-		{{ quizIdForm.hidden_tag() }}
-		{{ quizIdForm.quiz_id(class="form-control form-control-lg") }}
-		{{ quizIdForm.submitBtn(class="btn") }}
-	</form>
+	<div class="home_div_content">
+		<h2>Welcome</h2>
+		<br>
+		<h5>Please Enter the Quiz Code:</h5>
+		<form class="quiz_form" action="" method="GET" id="codeForm">
+			{{ quizIdForm.hidden_tag() }}
+			{{ quizIdForm.quiz_id(class="form-control form-control-lg") }}
+			{{ quizIdForm.submitBtn(class="btn") }}
+		</form>
+	</div>
 
 </div>
 <script>
 	let myForm = document.getElementById("codeForm")
-	myForm.addEventListener("submit", function(e){
+	myForm.addEventListener("submit", function (e) {
 		e.preventDefault();
 		let quiz_id = document.getElementById("quiz_id").value;
-		myForm.setAttribute("action", "/quiz/"+quiz_id);
+		myForm.setAttribute("action", "/quiz/" + quiz_id);
 		myForm.submit();
 	});
 </script>
