@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
@@ -23,6 +23,8 @@ url = "mysql://{0}:{1}@{2}:{3}/{4}".format(
     "quiz",
 )
 app.config["SQLALCHEMY_DATABASE_URI"] = url
+
+app.permanent_session_lifetime = timedelta(minutes=30)
 
 db = SQLAlchemy(app)
 
@@ -49,6 +51,7 @@ def inject_forms():
 
 
 @app.route("/", methods=["GET", "POST"])
+@app.route("/home", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
         quizIdForm = QuizIdForm(request.form)
@@ -108,6 +111,7 @@ def login():
             .first()
             is not None
         ):
+            session.permanent = True
             flash(message=["Logged in successfully"], category="success")
             return redirect(url_for(**session["redirectURL"]))
         else:
