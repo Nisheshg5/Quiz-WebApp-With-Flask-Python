@@ -115,8 +115,6 @@ def login():
         if user and bcrypt.check_password_hash(user.password, loginForm.password.data):
             login_user(user, remember=loginForm.remember.data)
             session.permanent = True
-            session["loggedIn"] = True
-            session["user_id"] = user.user_id
             flash(
                 message=[
                     f"Logged in successfully",
@@ -155,8 +153,6 @@ def register():
             db.session.add(user)
             db.session.commit()
             session.permanent = True
-            session["loggedIn"] = True
-            session["user_id"] = user.user_id
             flash(message=["User created successfully"], category="success")
             return redirect(url_for(**session["redirectURL"]))
         else:
