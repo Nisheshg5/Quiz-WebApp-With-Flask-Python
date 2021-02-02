@@ -9,7 +9,7 @@ class QuizIdForm(FlaskForm):
         render_kw={"placeholder": "Enter Code"},
         validators=[DataRequired(), Length(min=1, max=3)],
     )
-    submit = SubmitField("Open Quiz")
+    submitBtn = SubmitField("Open Quiz")
 
 
 class LoginForm(FlaskForm):
