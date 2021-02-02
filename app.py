@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
 
 from flask import Flask, flash, redirect, render_template, request, session, url_for
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, current_user, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 
 from admin import admin
@@ -26,8 +28,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = url
 app.permanent_session_lifetime = timedelta(minutes=30)
 
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
 
 
+from forms import LoginForm, QuizIdForm, RegistrationForm
 from models import Question, Question_choices, Quiz, User, User_question_answer
 
 # print(*User.query.all(), sep="\n", end="\n\n\n\n\n")
@@ -49,8 +54,8 @@ def inject_forms():
     return dict(loginForm=loginForm, registrationForm=registrationForm)
 
 
+# @app.route("/home", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
-@app.route("/home", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
         quizIdForm = QuizIdForm(request.form)
@@ -102,14 +107,13 @@ def get_data():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for(**session["redirectURL"]))
     loginForm = LoginForm(request.form)
     if loginForm.loginSubmit.data and loginForm.validate_on_submit():
-        user = (
-            User.query.filter_by(email=loginForm.email.data)
-            .filter_by(password=loginForm.password.data)
-            .first()
-        )
-        if user is not None:
+        user = User.query.filter_by(email=loginForm.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, loginForm.password.data):
+            login_user(user, remember=loginForm.remember.data)
             session.permanent = True
             session["loggedIn"] = True
             session["user_id"] = user.user_id
@@ -132,16 +136,21 @@ def login():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for(**session["redirectURL"]))
     registrationForm = RegistrationForm(request.form)
     if (
         registrationForm.registrationSubmit.data
         and registrationForm.validate_on_submit()
     ):
         if User.query.filter_by(email=registrationForm.email.data).first() is None:
+            hashed_password = bcrypt.generate_password_hash(
+                registrationForm.password.data
+            ).decode("utf8")
             user = User(
                 username=registrationForm.email.data.split("@")[0],
                 email=registrationForm.email.data,
-                password=registrationForm.password.data,
+                password=hashed_password,
             )
             db.session.add(user)
             db.session.commit()
@@ -163,6 +172,11 @@ def register():
         ]
         flash(message=errors, category="validation")
         return redirect(url_for(**session["redirectURL"]))
+
+
+@app.route("/logout/")
+def logout():
+    logout_user()
 
 
 @app.errorhandler(404)

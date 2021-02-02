@@ -1,13 +1,20 @@
 from datetime import datetime, timedelta
 
-from app import db
+from flask_login import UserMixin
+
+from app import db, login_manager
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
 def default_end_datetime():
     return datetime.utcnow() + timedelta(hours=3)
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -15,6 +22,9 @@ class User(db.Model):
     user_question_answers = db.relationship(
         "User_question_answer", backref="user", lazy=True
     )
+
+    def get_id(self):
+        return self.user_id
 
     def __repr__(self):
         return f"user_id: {self.user_id}, username: {self.username}, email: {self.email}, password: {self.password}"
