@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, session, url_for, flash
 from flask_login import current_user
+from datetime import datetime
 
 from models import Quiz, User
 
@@ -22,6 +23,13 @@ def quiz_page_id(quiz_id):
     if(not quiz):
         flash(message=["Invalid test code"], category="error")
         return redirect(url_for(**session["redirectURL"]))
+
+    # check for quiz expiration
+    # if the  quiz is expired we don't need to fetch the questions
+
+    
+
+
 
     # render the quiz
     return render_template("quiz.html", name=quiz_id)
