@@ -55,13 +55,13 @@ def inject_forms():
 def home():
     if request.method == "POST":
         quizIdForm = QuizIdForm(request.form)
-        if quizIdForm.submit.data and quizIdForm.validate_on_submit():
+        if quizIdForm.submitBtn.data and quizIdForm.validate_on_submit():
             if (
                 Quiz.query.filter_by(quiz_id=quizIdForm.quiz_id.data).first()
                 is not None
             ):
                 return redirect(
-                    url_for("quiz.quiz_page", quiz_id=quizIdForm.quiz_id.data)
+                    url_for("quiz.quiz_page_id", quiz_id=quizIdForm.quiz_id.data)
                 )
             else:
                 flash(message=["Invalid Code"], category="error")
