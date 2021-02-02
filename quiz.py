@@ -14,7 +14,6 @@ def quiz_page():
 @quiz.route("/<quiz_id>")
 def quiz_page_id(quiz_id):
 
-    print("Quiz code = ", quiz_id)
     # user should be logged in
     if not current_user.is_authenticated:
         return redirect(url_for(**session["redirectURL"]))
@@ -28,10 +27,10 @@ def quiz_page_id(quiz_id):
 
     # check for quiz expiration
     # if the  quiz is expired we don't need to fetch the questions
-
-    
-
-    # render the quiz
-    return render_template("quiz.html", name=quiz_id)
+    # expired
+    if(quiz.end_date < datetime.utcnow()):        
+        return render_template("quiz.html", id=quiz_id, title=quiz.title, start=quiz.start_date, end=quiz.end_date)
+    else:
+        return render_template("quiz.html",  id=quiz_id, title=quiz.title, start=quiz.start_date, end=quiz.end_date, questions=quiz.questions)
 
     

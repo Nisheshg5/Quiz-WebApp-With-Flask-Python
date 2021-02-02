@@ -21,7 +21,15 @@ Home page
 	myForm.addEventListener("submit", function (e) {
 		e.preventDefault();
 		let quiz_id = document.getElementById("quiz_id").value;
+<<<<<<< Updated upstream
 		myForm.setAttribute("action", "/quiz/" + quiz_id);
+=======
+		if(isNaN(parseInt(quiz_id))){
+			alert("Invalid Quiz Id");
+			return false;
+		}
+		myForm.setAttribute("action", "/quiz/"+quiz_id);
+>>>>>>> Stashed changes
 		myForm.submit();
 	});
 </script>
