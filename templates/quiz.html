@@ -9,13 +9,50 @@ Quiz
 <h3>
 	id: {{ quiz.quiz_id }} <br>
 	name: {{ quiz.title }} <br>
-	Start Date: {{ quiz.start_date }} <br>
-	End Date: {{ quiz.end_date }} <br>
 </h3>
-<h6>
+
+{% if quiz.start_date.__gt__(datetime.utcnow()) %}
+{% set timer = quiz.start_date.__sub__(datetime.utcnow()).total_seconds() %}
+
+<script>
+	function time_format(seconds) {
+		var days = Math.floor(seconds / (24 * 60 * 60));
+		seconds -= days * (24 * 60 * 60);
+		days = (days > 0) ? ((days > 1) ? (days + " days ") : (days + " day ")) : "";
+
+		var hours = Math.floor(seconds / (60 * 60));
+		seconds -= hours * (60 * 60);
+		hours = (hours > 0) ? ((hours > 1) ? (hours + " hours ") : (hours + " hour ")) : "";
+
+		var minutes = Math.floor(seconds / (60));
+		seconds -= minutes * (60);
+		minutes = (minutes > 1) ? (minutes + " minutes and ") : (minutes + " minute and ");
+
+		seconds = (seconds > 1) ? (seconds + " seconds ") : (seconds + " second ");
+
+		return days + hours + minutes + seconds;
+	}
+	var time = "{{timer}}";
+
+	var interval = setInterval(function () {
+		var interval = $("#timer").text(time_format(--time | 0));
+		if (time <= 0) {
+			clearInterval(interval);
+		}
+	}, 1000);
+</script>
+
+<h3>Test Starts in: <span id="timer"></span></h3>
+{% elif quiz.end_date.__gt__(datetaime.utcnow()) %}
+Test Started
+{% elif quiz.end_date.__lt__(datetime.utcnow()) %}
+Test Ended
+{% endif %}
+
+<!-- <h6>
 	{% for question in quiz.questions %}
 	Question : {{ question }} <br>
 	{% endfor %}
-</h6>
+</h6> -->
 {{super()}}
 {% endblock %}

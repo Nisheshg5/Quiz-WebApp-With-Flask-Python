@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time
 
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 from flask_login import current_user
@@ -52,5 +52,5 @@ def quiz_page_id(quiz_id):
     # expired
 
     # if(quiz.end_date < datetime.utcnow()):
-    return render_template("quiz.html", quiz=quiz)
+    return render_template("quiz.html", quiz=quiz, datetime=datetime)
 
