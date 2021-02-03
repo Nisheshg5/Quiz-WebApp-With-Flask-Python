@@ -3,7 +3,7 @@ from datetime import datetime, time
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 from flask_login import current_user
 
-from forms import QuizIdForm
+from forms import QuizIdForm, QuizPwdForm
 from models import Quiz, User
 
 quiz = Blueprint("quiz", __name__, static_folder="static", template_folder="templates")
@@ -34,6 +34,39 @@ def quiz_page():
     return redirect(url_for(**session["redirectURL"]))
 
 
+
+@quiz.route("/<quiz_id>/instructions", methods=["GET", "POST"])
+def quiz_instructions(quiz_id):
+
+    if request.method == "POST":
+        # user should be logged in
+        if not current_user.is_authenticated:
+            return redirect(url_for(**session["redirectURL"]))
+
+        #validate form data
+        quizPwdForm = QuizPwdForm(request.form)
+        if quizPwdForm.submitPwd.data and quizPwdForm.validate_on_submit():
+            quiz = Quiz.query.filter_by(quiz_id=quiz_id).first()
+            if (quiz is not None):
+                if(quiz.quiz_pwd == quizPwdForm.quiz_pwd.data):             #this line will throw error because the model doesn't contains that column
+                    print("Password Matched ")
+                    return("Welcome to instructions")
+                else:
+                    print("Passwod doesn't match")
+                    flash(message=["Incorrect Password"], category="error")
+                    return redirect(url_for(**session["redirectURL"]))
+            else:
+                print("Quiz not found with this id")
+                flash(message=["Invalid Code"], category="error")
+        else:
+            print("Invalid Form input")
+            errors = [
+                [quizPwdForm[a].label.text, b] for a, b in quizPwdForm.errors.items()
+            ]
+            flash(message=errors, category="validation")
+
+    return redirect(url_for(**session["redirectURL"]))
+
 @quiz.route("/<quiz_id>")
 def quiz_page_id(quiz_id):
 
@@ -53,4 +86,3 @@ def quiz_page_id(quiz_id):
 
     # if(quiz.end_date < datetime.utcnow()):
     return render_template("quiz.html", quiz=quiz, datetime=datetime)
-

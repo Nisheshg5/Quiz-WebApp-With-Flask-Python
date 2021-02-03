@@ -52,7 +52,7 @@ Quiz
 			{% endif %}
 		</div>
 		<div class="right">
-			<form class="quiz_pwd_form" action="quiz/instructions" method="POST" id="quiz_pwd_form">
+			<form class="quiz_pwd_form" action="/quiz/{{ quiz.quiz_id }}/instructions"  method="POST" id="quiz_pwd_form">
 				{{ quizPwdForm.hidden_tag() }}
 				{{ quizPwdForm.quiz_pwd(class="form-control form-control-lg") }}
 				{{ quizPwdForm.submitPwd(class="btn btn-primary mt-2") }}

@@ -36,7 +36,7 @@ class Quiz(db.Model):
     start_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     end_date = db.Column(db.DateTime, nullable=False, default=default_end_datetime)
     questions = db.relationship("Question", backref="quiz", lazy=True)
-    password = db.Column(db.String(120), nullable=False, lazy=True)
+    
 
     def __repr__(self):
         return f"quiz_id: {self.quiz_id}, title: {self.title}"
