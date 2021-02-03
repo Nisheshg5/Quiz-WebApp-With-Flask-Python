@@ -20,7 +20,8 @@ a.form-link:hover
     color:#eee;
     border-color: #eee;
 }
-input[type="checkbox"]:checked{
+input[type="checkbox"]:checked
+{
     background: purple;
     color:purple
 }

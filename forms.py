@@ -12,6 +12,15 @@ class QuizIdForm(FlaskForm):
     submitBtn = SubmitField("Open Quiz")
 
 
+class QuizPwdForm(FlaskForm):
+    quiz_pwd = StringField(
+        "Quiz Password",
+        render_kw={"placeholder": "Enter password"},
+        validators=[DataRequired(), Length(min=1, max=3)],
+    )
+    submitPwd = SubmitField("Enter Quiz")
+
+
 class LoginForm(FlaskForm):
     email = StringField(
         "Email",

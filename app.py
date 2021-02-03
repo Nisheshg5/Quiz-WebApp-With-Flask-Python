@@ -27,7 +27,7 @@ login_manager = LoginManager(app)
 
 
 from admin import admin
-from forms import LoginForm, QuizIdForm, RegistrationForm
+from forms import LoginForm, QuizIdForm, RegistrationForm, QuizPwdForm
 from models import Question, Question_choices, Quiz, User, User_question_answer
 from quiz import quiz
 from user_profile import user_profile
@@ -47,7 +47,8 @@ app.register_blueprint(user_profile, url_prefix="/user")
 def inject_forms():
     loginForm = LoginForm()
     registrationForm = RegistrationForm()
-    return dict(loginForm=loginForm, registrationForm=registrationForm)
+    quizPwdForm = QuizPwdForm()
+    return dict(loginForm=loginForm, registrationForm=registrationForm, quizPwdForm=quizPwdForm)
 
 
 # @app.route("/home", methods=["GET", "POST"])

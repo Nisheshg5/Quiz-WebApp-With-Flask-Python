@@ -131,15 +131,14 @@
         </div>
     </div>
 
-    <div class="container-fluid">
-        {% block content %}
-        Text in layout
-        {% endblock %}
-        <hr />
-        <footer class="footer">
-            <p>© 2018</p>
-        </footer>
-    </div>
+    {% block content %}
+    Text in layout
+    {% endblock %}
+        
+        
+    <footer class="footer">
+        <p>© 2018</p>
+    </footer>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
