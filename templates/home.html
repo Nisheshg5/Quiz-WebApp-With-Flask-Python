@@ -8,8 +8,7 @@ Home page
 		<h2>Welcome</h2>
 		<br>
 		<h5>Please Enter the Quiz Code:</h5>
-		<!-- <form class="quiz_form" action="" method="POST" id="codeForm"> -->
-		<form class="quiz_form" action="" method="GET" id="codeForm">
+		<form class="quiz_form" action="quiz/" method="POST" id="codeForm">
 			{{ quizIdForm.hidden_tag() }}
 			{{ quizIdForm.quiz_id(class="form-control form-control-lg") }}
 			{{ quizIdForm.submitBtn(class="btn") }}
@@ -17,7 +16,7 @@ Home page
 	</div>
 
 </div>
-<script>
+<!-- <script>
 	let myForm = document.getElementById("codeForm")
 	myForm.addEventListener("submit", function (e) {
 		e.preventDefault();
@@ -29,5 +28,5 @@ Home page
 		myForm.setAttribute("action", "/quiz/" + quiz_id);
 		myForm.submit();
 	});
-</script>
+</script> -->
 {% endblock %}
