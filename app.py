@@ -9,15 +9,8 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "1234567890abc"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/test.db"
-url = "mysql://{0}:{1}@{2}:{3}/{4}".format(
-    "adminsql@quiz-mysql-db",
-    "Quiz@123",
-    "quiz-mysql-db.mysql.database.azure.com",
-    3306,
-    "quiz",
-)
-app.config["SQLALCHEMY_DATABASE_URI"] = url
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
+
 
 app.permanent_session_lifetime = timedelta(minutes=30)
 
