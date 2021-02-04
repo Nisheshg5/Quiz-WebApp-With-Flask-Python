@@ -1,8 +1,9 @@
 from datetime import datetime, timedelta
+from uuid import uuid4
 
 from flask_login import UserMixin
 
-from app import db, login_manager
+from app import bcrypt, db, login_manager
 
 
 @login_manager.user_loader
@@ -10,8 +11,12 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-def default_end_datetime():
+def default_start_datetime():
     return datetime.utcnow() + timedelta(hours=3)
+
+
+def default_end_datetime():
+    return datetime.utcnow() + timedelta(hours=6)
 
 
 class User(db.Model, UserMixin):
@@ -32,11 +37,14 @@ class User(db.Model, UserMixin):
 
 class Quiz(db.Model):
     quiz_id = db.Column(db.Integer, primary_key=True)
+    quiz_code = db.Column(db.String(120), unique=True, default=lambda: uuid4().hex)
     title = db.Column(db.String(120), nullable=False)
-    start_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    instructions = db.Column(db.Text, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False, default=default_start_datetime)
     end_date = db.Column(db.DateTime, nullable=False, default=default_end_datetime)
+    duration = db.Column(db.Integer, nullable=False, default=90)
     questions = db.relationship("Question", backref="quiz", lazy=True)
-    
 
     def __repr__(self):
         return f"quiz_id: {self.quiz_id}, title: {self.title}"
@@ -80,7 +88,26 @@ class User_question_answer(db.Model):
     choice_id = db.Column(
         db.Integer, db.ForeignKey("question_choices.choices_id"), nullable=False
     )
+    subitted_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     is_right = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
         return f"user_id: {self.user_id}, quiz_id: {self.quiz_id}, question_id: {self.question_id}, choice_id: {self.choice_id}, is_right: {self.is_right}"
+
+
+def reset_db():
+    db.create_all()
+    db.session.add(
+        Quiz(
+            title="Vestibulum ac est lacinia nisi venenatis tristique.",
+            instructions=""""line 1
+                        line 2
+                        line 3""",
+            password=bcrypt.generate_password_hash("p").decode("utf8"),
+        )
+    )
+
+    db.session.commit()
+
+
+# reset_db()

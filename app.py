@@ -27,7 +27,7 @@ login_manager = LoginManager(app)
 
 
 from admin import admin
-from forms import LoginForm, QuizIdForm, RegistrationForm, QuizPwdForm
+from forms import LoginForm, QuizIdForm, QuizPwdForm, RegistrationForm
 from models import Question, Question_choices, Quiz, User, User_question_answer
 from quiz import quiz
 from user_profile import user_profile
@@ -48,7 +48,9 @@ def inject_forms():
     loginForm = LoginForm()
     registrationForm = RegistrationForm()
     quizPwdForm = QuizPwdForm()
-    return dict(loginForm=loginForm, registrationForm=registrationForm, quizPwdForm=quizPwdForm)
+    return dict(
+        loginForm=loginForm, registrationForm=registrationForm, quizPwdForm=quizPwdForm
+    )
 
 
 # @app.route("/home", methods=["GET", "POST"])
